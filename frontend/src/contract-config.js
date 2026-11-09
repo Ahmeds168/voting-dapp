@@ -1,6 +1,6 @@
 // Address of the deployed PollFactory (set after running scripts/deployFactory.js).
 // A VITE_FACTORY_ADDRESS env var, if present, overrides this default.
-const DEPLOYED_FACTORY_ADDRESS = "";
+const DEPLOYED_FACTORY_ADDRESS = "0x046da67C7A68582C56F980280e4ac9dB11748083";
 export const FACTORY_ADDRESS = import.meta.env.VITE_FACTORY_ADDRESS || DEPLOYED_FACTORY_ADDRESS;
 
 // The original single-poll contract ("Best Language 2026"). Its voting window
