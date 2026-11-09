@@ -6,19 +6,38 @@ A minimal voting/poll dApp: a Solidity contract (Hardhat) + a React frontend (Vi
 **Contract (Sepolia):** [0xED356DBd900e554658ab43E08a6f288406d5288f](https://sepolia.etherscan.io/address/0xED356DBd900e554658ab43E08a6f288406d5288f)
 
 
+## Poll factory (anyone can create a poll)
+
+`PollFactory.sol` deploys a fresh `Poll` contract each time someone calls `createPoll(title, options, durationInSeconds)` and keeps a list of every poll, so the frontend can show all of them. The app has three views: all polls (`#/`), create a poll (`#/create`), and a single poll (`#/poll/<address>`, shareable).
+
+To switch it on (needs your wallet, so run it locally):
+
+```bash
+npx hardhat run scripts/deployFactory.js --network sepolia
+```
+
+Then set `DEPLOYED_FACTORY_ADDRESS` in `frontend/src/contract-config.js` (or `VITE_FACTORY_ADDRESS` in Vercel) to the printed address and deploy the frontend. The original poll contract stays readable and is listed as the "Original poll".
+
+Limits enforced on-chain: 2–20 options, titles up to 200 bytes, option names up to 100 bytes, voting windows from 1 minute to 365 days. One vote per wallet address.
+
 ## Structure
 
 ```
 voting-dapp/
-├── contracts/Voting.sol       # the smart contract
-├── test/Voting.test.js        # Hardhat test suite
-├── scripts/deploy.js          # deployment script (edit poll title/candidates here)
+├── contracts/
+│   ├── Voting.sol             # original single-poll contract (deployed, closed)
+│   ├── Poll.sol               # one poll, created by the factory
+│   └── PollFactory.sol        # creates and lists polls
+├── test/                      # Hardhat tests (Voting + PollFactory)
+├── scripts/
+│   ├── deploy.js              # deploys the original single poll
+│   └── deployFactory.js       # deploys the PollFactory
 ├── hardhat.config.js
 ├── .env.example                # rename to .env, fill in your RPC URL + key
-└── frontend/                  # React app
-    ├── src/App.jsx
-    ├── src/contract-config.js
-    └── .env.example            # rename to .env, fill in deployed contract address
+└── frontend/                  # React app (hash-routed: list, create, poll view)
+    ├── src/App.jsx, views/    # PollList, CreatePoll, PollView
+    ├── src/contract-config.js # factory address, chain settings, public RPC
+    └── .env.example
 ```
 
 ## 1. Deploy the contract (you run this locally)
