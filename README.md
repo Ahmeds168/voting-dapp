@@ -2,7 +2,7 @@
 
 A minimal voting/poll dApp: a Solidity contract (Hardhat) + a React frontend (Vite + ethers.js) styled like an official paper ballot.
 
-**Live:** https://onchain-voting-dapp-ahmed-ali-shahs-projects-c142f759.vercel.app
+**Live:** https://onchain-voting-dapp.vercel.app
 **Contract (Sepolia):** [0xED356DBd900e554658ab43E08a6f288406d5288f](https://sepolia.etherscan.io/address/0xED356DBd900e554658ab43E08a6f288406d5288f)
 
 
