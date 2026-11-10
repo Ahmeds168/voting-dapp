@@ -2,32 +2,42 @@ import { useState, useEffect } from "react";
 import { isAddress } from "ethers";
 import { useWallet } from "./useWallet";
 import { shortAddr } from "./lib";
+import Link from "./Link";
 import { FACTORY_ADDRESS, NETWORK_NAME, EXPLORER_URL } from "./contract-config";
 import PollList from "./views/PollList";
 import CreatePoll from "./views/CreatePoll";
 import PollView from "./views/PollView";
 import "./App.css";
 
-// Tiny hash router: #/ (list), #/create, #/poll/<address>
-function parseHash() {
-  const parts = window.location.hash.replace(/^#/, "").split("/").filter(Boolean);
+// Tiny path router: / (list), /create, /poll/<address>
+// Old shared links used hashes (#/poll/0x…); redirect them to the matching path.
+function upgradeLegacyHash() {
+  const m = window.location.hash.match(/^#\/(.*)$/);
+  if (m) window.history.replaceState(null, "", "/" + m[1]);
+}
+
+function parsePath() {
+  const parts = window.location.pathname.split("/").filter(Boolean);
   if (parts[0] === "create") return { name: "create" };
   if (parts[0] === "poll" && isAddress(parts[1] || "")) return { name: "poll", address: parts[1] };
   return { name: "list" };
 }
 
 export default function App() {
-  const [route, setRoute] = useState(parseHash());
+  const [route, setRoute] = useState(() => {
+    upgradeLegacyHash();
+    return parsePath();
+  });
   const wallet = useWallet();
   const { account, wrongNetwork, error, connect, switchNetwork } = wallet;
 
   useEffect(() => {
-    const onHash = () => {
-      setRoute(parseHash());
+    const onNav = () => {
+      setRoute(parsePath());
       window.scrollTo(0, 0);
     };
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
+    window.addEventListener("popstate", onNav);
+    return () => window.removeEventListener("popstate", onNav);
   }, []);
 
   return (
@@ -35,12 +45,12 @@ export default function App() {
       <div className="ballot">
         <header className="ballot-head">
           <nav className="nav" aria-label="Main">
-            <a href="#/" aria-current={route.name === "list" ? "page" : undefined}>
+            <Link to="/" aria-current={route.name === "list" ? "page" : undefined}>
               Polls
-            </a>
-            <a href="#/create" aria-current={route.name === "create" ? "page" : undefined}>
+            </Link>
+            <Link to="/create" aria-current={route.name === "create" ? "page" : undefined}>
               Create poll
-            </a>
+            </Link>
           </nav>
           <div className="stub">
             {account ? (

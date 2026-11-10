@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/poll/:address", "destination": "/poll/index.html" }]
+}

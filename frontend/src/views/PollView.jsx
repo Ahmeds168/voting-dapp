@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { NETWORK_NAME } from "../contract-config";
+import Link from "../Link";
 import { pollContract, shortAddr, formatCountdown, friendlyError } from "../lib";
 
 export default function PollView({ address, wallet }) {
@@ -86,9 +87,9 @@ export default function PollView({ address, wallet }) {
     return (
       <div className="ballot-body">
         <p className="status status-error">{loadError}</p>
-        <a className="btn-secondary btn-link" href="#/">
+        <Link className="btn-secondary btn-link" to="/">
           ← All polls
-        </a>
+        </Link>
       </div>
     );
   }
@@ -175,9 +176,9 @@ export default function PollView({ address, wallet }) {
       {status.message && <p className={`status status-${status.kind}`}>{status.message}</p>}
 
       <div className="poll-actions">
-        <a className="link-btn" href="#/">
+        <Link className="link-btn" to="/">
           ← All polls
-        </a>
+        </Link>
         <button className="link-btn" onClick={copyLink}>
           {copied ? "Link copied" : "Copy link to share"}
         </button>

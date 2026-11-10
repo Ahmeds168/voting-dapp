@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { FACTORY_ADDRESS, LEGACY_POLL_ADDRESS } from "../contract-config";
+import Link from "../Link";
 import { factoryContract, pollContract, shortAddr, formatCountdown } from "../lib";
 
 const PAGE_SIZE = 10;
@@ -16,7 +17,7 @@ function StatusChip({ timeLeft }) {
 function PollRow({ poll }) {
   return (
     <li>
-      <a className="poll-item" href={`#/poll/${poll.address}`}>
+      <Link className="poll-item" to={`/poll/${poll.address}`}>
         <span className="poll-item-main">
           <span className="poll-item-title">{poll.title}</span>
           <span className="poll-meta mono">
@@ -25,7 +26,7 @@ function PollRow({ poll }) {
           </span>
         </span>
         <StatusChip timeLeft={poll.timeLeft} />
-      </a>
+      </Link>
     </li>
   );
 }
@@ -100,9 +101,9 @@ export default function PollList() {
         Anyone can start a poll and share its link. Every vote is recorded on the Sepolia test network.
       </p>
 
-      <a className="btn-cast btn-link" href="#/create">
+      <Link className="btn-cast btn-link" to="/create">
         Create a poll
-      </a>
+      </Link>
 
       {!FACTORY_ADDRESS && (
         <p className="hint">Poll creation isn&apos;t switched on yet — the factory contract hasn&apos;t been deployed.</p>

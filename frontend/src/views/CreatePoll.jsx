@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FACTORY_ADDRESS, NETWORK_NAME } from "../contract-config";
-import { factoryContract, byteLength, friendlyError } from "../lib";
+import { factoryContract, byteLength, friendlyError, navigate } from "../lib";
 
 // These limits mirror the checks inside Poll.sol.
 const MAX_TITLE_BYTES = 200;
@@ -73,7 +73,7 @@ export default function CreatePoll({ wallet }) {
           /* not a factory event */
         }
       }
-      window.location.hash = pollAddress ? `#/poll/${pollAddress}` : "#/";
+      navigate(pollAddress ? `/poll/${pollAddress}` : "/");
     } catch (err) {
       console.error(err);
       setStatus({ kind: "error", message: friendlyError(err) });
