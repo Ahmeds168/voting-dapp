@@ -2,7 +2,7 @@
 // JavaScript still get a correct title, description, canonical URL and readable summary.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
-const SITE = "https://onchain-voting-dapp-ahmed-ali-shahs-projects-c142f759.vercel.app";
+const SITE = "https://onchain-voting-dapp.vercel.app";
 const dist = new URL("../dist/", import.meta.url);
 const home = readFileSync(new URL("index.html", dist), "utf8");
 
