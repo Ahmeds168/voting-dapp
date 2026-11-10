@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://onchain-voting-dapp.vercel.app/sitemap.xml
+Sitemap: https://onchain-voting-dapp-ahmed-ali-shahs-projects-c142f759.vercel.app/sitemap.xml
